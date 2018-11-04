@@ -5,6 +5,24 @@ class Sum extends HTMLElement {
     return ['a', 'b'];
   }
 
+  set a (value) {
+    this.__a = Number(value);
+    this.__refresh();
+  }
+
+  get a () {
+    return this.__a;
+  }
+
+  set b (value) {
+    this.__b = Number(value);
+    this.__refresh();
+  }
+
+  get b () {
+    return this.__b;
+  }
+
   constructor () {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
@@ -14,9 +32,6 @@ class Sum extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     this[name] = newValue;
-    const a = Number(this.a);
-    const b = Number(this.b);
-    this.shadowRoot.querySelector('div').textContent = `${a} + ${b} = ${a + b}`;
   }
 
   connectedCallback() {
@@ -29,6 +44,10 @@ class Sum extends HTMLElement {
 
   adoptedCallback() {
     console.log('Custom element moved to new page.');
+  }
+
+  __refresh () {
+    this.shadowRoot.querySelector('div').textContent = `${this.a} + ${this.b} = ${this.a + this.b}`;
   }
 } 
 
